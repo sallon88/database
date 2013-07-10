@@ -64,6 +64,11 @@ class Validator {
 		return $value >= $min && $value <= $max;
 	}
 
+	public static function checkDate($value)
+	{
+		return strtotime($value) !== false;
+	}
+
 	public static function checkMatch($value, $regex)
 	{
 		return preg_match($regex, $value);
@@ -109,7 +114,7 @@ class Validator {
 
 	public static function check($value, $rules, &$rule_name = '')
 	{
-			$rules = array_map('trim', explode(',', $rules));
+			$rules = array_filter(array_map('trim', explode(',', $rules)));
 			foreach ($rules as $rule)
 			{
 				$rule_options = explode(':', $rule);

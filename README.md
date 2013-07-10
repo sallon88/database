@@ -118,7 +118,7 @@ by extends the Model class, User will have all the instance methods of DB::table
 	User::select($where); // DB::table('users')->select($where)
 	User::delete($where); // DB::table('users')->delete($where)
 
-params in create and update operation will be automatically checked according to $validates
+params in create and update method will be automatically checked according to $validates
 
 	User::create(array(
 		'user_name' => 'user_name',
