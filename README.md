@@ -120,6 +120,7 @@ by extends the Model class, User will have all the instance methods of DB::table
 
 and 3 dynamic methods which are getBy*, getOneBy*, deleteBy*.
 Note that given a table field 'user_name', the according dynamic method name shall be exactly 'getByUserName', case sensitive!
+
 	User::getByUserName('%aa%');
    	//DB::table('users')->select(array('user_name' => '%aa%'));
 	
