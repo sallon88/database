@@ -14,6 +14,16 @@ by extends the Model class, User will have all the instance methods of DB::table
 	User::select($where); // DB::table('users')->select($where)
 	User::delete($where); // DB::table('users')->delete($where)
 
+User will also have 3 kinds of dynamic methods which are getBy*, getOneBy*, deleteBy*. Note that if the filedname in databale is 'user_name', then the dynamic method name shall be exactly 'getByUserName', case sensitive!
+	User::getByUserName('%aa%');
+   	//DB::table('users')->select(array('user_name' => '%aa%'));
+	
+	User::getByUserNameAndSex('%aa%', '1');
+   	//DB::table('users')->select(array('user_name' => '%aa%', 'sex' => 1));
+	
+	User::deleteByUserNameAndSexAndAge('%aa%', '1', array(15, 20, 25));
+	//DB::table('users')->delete(array('user_name' => '%aa%', 'sex' => '1', 'age' => array(15, 20, 25)));
+
 params in create and update operation will be automatically checked according to $validates
 	User::create(array(
 		'user_name' => 'user_name',
@@ -42,7 +52,7 @@ abstract class Model {
 	public static function update(array $params, $where = null)
 	{
 		$validates = array_intersect_key(static::$validates, $params);
-		if ( ! Validator::run($params, $validates, self::$errors))
+		if ( ! Validator::multiCheck($params, $validates, self::$errors))
 		{
 			return false;
 		}
@@ -52,7 +62,7 @@ abstract class Model {
 
 	public static function create(array $params)
 	{
-		if ( ! Validator::run($params, static::$validates, self::$errors))
+		if ( ! Validator::multiCheck($params, static::$validates, self::$errors))
 		{
 			return false;
 		}
@@ -67,7 +77,37 @@ abstract class Model {
 
 	public static function __callStatic($method, $parameters)
 	{
+		if (preg_match('/^getOneBy(\w++)$/', $method, $matches)) 
+		{
+			$where = self::_dynamicWhere($matches[1], $parameters);
+			return DB::table(static::$table_name)->selectOne($where);
+		}
+
+		if (preg_match('/^getBy(\w++)$/', $method, $matches)) 
+		{
+			$where = self::_dynamicWhere($matches[1], $parameters);
+			return DB::table(static::$table_name)->select($where);
+		}
+
+		if (preg_match('/^deleteBy(\w++)$/', $method, $matches)) 
+		{
+			$where = self::_dynamicWhere($matches[1], $parameters);
+			return DB::table(static::$table_name)->delete($where);
+		}
+
 		$db_query = DB::table(static::$table_name);
 		return call_user_func_array(array($db_query, $method), $parameters);
+	}
+
+	private static function _dynamicWhere($by_field, $parameters)
+	{
+		$by_field = strtolower(preg_replace('/(?<!\b)(?=[A-Z])/', '_', $by_field));
+		$fields = explode('_and_', $by_field);
+		if (count($fields) !== count($parameters))
+		{
+			throw new Exception('parameters error!');
+		}
+
+		return array_combine($fields, $parameters);
 	}
 }

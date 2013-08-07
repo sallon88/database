@@ -91,7 +91,7 @@ class Validator {
 	 * @param array $errors
 	 * @return bool
 	 */
-	public static function run(array $params, array $validates, &$errors = array())
+	public static function multiCheck(array $params, array $validates, &$errors = array())
 	{
 		$errors = array();
 		foreach ($validates as $key => $rules)
