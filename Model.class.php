@@ -14,7 +14,8 @@ by extends the Model class, User will have all the instance methods of DB::table
 	User::select($where); // DB::table('users')->select($where)
 	User::delete($where); // DB::table('users')->delete($where)
 
-User will also have 3 kinds of dynamic methods which are getBy*, getOneBy*, deleteBy*. Note that if the filedname in databale is 'user_name', then the dynamic method name shall be exactly 'getByUserName', case sensitive!
+and 3 dynamic methods which are getBy*, getOneBy*, deleteBy*.
+Note that given a table field 'user_name', the according dynamic method name shall be exactly 'getByUserName', case sensitive!
 	User::getByUserName('%aa%');
    	//DB::table('users')->select(array('user_name' => '%aa%'));
 	
