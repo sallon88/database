@@ -256,13 +256,6 @@ class DBConnection {
 
 		return array($statement, $result);
 	}
-
-	// magic
-	// $this->users()->total() == $this->table('users')->total()
-	public function __call($method, $parameters)
-	{
-		return $this->table($method);
-	}
 }
 
 /**
