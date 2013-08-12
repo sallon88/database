@@ -70,10 +70,10 @@ the only parameter of select method is $where, note that there are 9 different p
 	));
 	// WHERE (age > ?) AND (status NOT IN (?,?,?))
 
-	DB::table('users')->select(
+	DB::table('users')->select(array(
 		array('age >' => 30), 
 		array('user_name' => '%aa%', 'sex' => 1)
-	);
+	));
 	// WHERE (age > ?) OR ((user_name LIKE ?) AND (sex = ?))
 
 ###chain options
