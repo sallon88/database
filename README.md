@@ -135,7 +135,7 @@ by extends the Model class, User will have all the instance methods of DB::table
 	User::getByUserName('%aa%');  
 	User::deleteByUserNameAndSexAndAge('%aa%', '1', array(15, 20, 25));
 
-params in create and update method will be automatically checked according to $validates
+params in create and update method will be automatically checked against $validates
 
 	User::create(array(
 		'user_name' => 'user_name',
