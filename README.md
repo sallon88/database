@@ -84,7 +84,7 @@ note that given a table field 'user_name', the according dynamic method name sha
    	//DB::table('users')->select(array('user_name' => '%aa%'));
 	
 	DB::table('users')->getOneByUserNameAndSex('%aa%', '1'); // 'like' and 'equal'
-   	//DB::table('users')->select(array('user_name' => '%aa%', 'sex' => 1));
+   	//DB::table('users')->selectOne(array('user_name' => '%aa%', 'sex' => 1));
 	
 	DB::table('users')->deleteByUserNameAndSexAndAge('%aa%', '1', array(15, 20, 25));
 	//DB::table('users')->delete(array('user_name' => '%aa%', 'sex' => '1', 'age' => array(15, 20, 25)));
