@@ -71,6 +71,11 @@ abstract class Model {
 		return DB::table(static::$table_name)->insert($params);
 	}
 
+	public static function insert()
+	{
+		return call_user_func_array('static::create', func_get_args());
+	}
+
 	public static function getError()
 	{
 		return self::$errors;
